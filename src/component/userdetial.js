@@ -1,20 +1,19 @@
-import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserDetail = (props) => {
-  //const [user, setUser] = useOutletContext();
-  const { id = "", name = "", profile = "", image = "" } = props;
+  const { id = "", email = "", lastname = "", firstname = "" } = props;
+  let navigate = useNavigate();
   return (
     <div className="card">
-      <img src={image} className="card-img-top" alt="photo" />
       <div className="card-body">
-        <h5>{name}</h5>
-        <p className="card-text">{profile}</p>
+        <h5 className="card-title">User Info</h5>
         <ul className="list-group list-group-flush">
-          <li className="list-group-item">item 1</li>
-          <li className="list-group-item">item 2</li>
-          <li className="list-group-item">item 3</li>
+          <li className="list-group-item">ID: {id}</li>
+          <li className="list-group-item">Email: {email}</li>
+          <li className="list-group-item">Last Name: {lastname}</li>
+          <li className="list-group-item">First Name: {firstname}</li>
         </ul>
-        <a href="/users" className="btn btn-primary">
+        <a href="#" className="btn btn-primary" onClick={() => navigate("/users")}>
           Go Back
         </a>
       </div>

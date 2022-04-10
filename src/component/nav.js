@@ -38,11 +38,6 @@ const Nav = () => {
                 Sign in
               </a>
             </li>
-            <li className="navbar-item">
-              <a className="nav-link" href="#" onClick={logout}>
-                Sign out
-              </a>
-            </li>
           </ul>
         </div>
       </div>
