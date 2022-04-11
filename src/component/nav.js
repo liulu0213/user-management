@@ -7,7 +7,7 @@ const Nav = () => {
   const { pathname } = location;
   console.log("auth", auth);
   return (
-    <nav className="navbar navbar-expand-md navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
           User Management
