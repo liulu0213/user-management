@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/js/src/collapse.js";
 import "./style/index.css";
 import React from "react";
 import ReactDOM from "react-dom";
