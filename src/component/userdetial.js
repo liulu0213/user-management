@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 const UserDetail = (props) => {
+  console.log(props);
   const { id = "", email = "", lastname = "", firstname = "" } = props;
   let navigate = useNavigate();
   return (

@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import Button from "./button";
+import Button from "./share/button";
 
 const UserList = (props) => {
-  const { users = [] } = props;
+  const { users = [] , setUser } = props;
   let navigate = useNavigate();
   if (users.length === 0) return null;
 
-  const handleClick=(link)=>()=>{
-    navigate(link)
+  const handleClick=(uid)=>()=>{
+    const user=users.filter(e=>e.id===uid)
+    setUser(user[0]);
+    navigate(`/users/${uid}`)
   };
 
   return (
@@ -17,7 +19,7 @@ const UserList = (props) => {
         <ul className="mt-4">
           {users.map((user) => (
             <li key={user.id}>
-              <a href="#" onClick={handleClick(`/users/${user.id}`)}>
+              <a href="#" onClick={handleClick(user.id)}>
                 {user.email}
               </a>
             </li>
