@@ -1,13 +1,14 @@
-import {createContext, useContext, useState} from 'react';
+import { createContext, useContext, useState } from "react";
+import { useLocation, Navigate } from "react-router-dom";
 import { apis } from "../config/config";
 import { fetchData } from "../utils/querydata";
 
-let AuthContext=createContext(null);
+let AuthContext = createContext(null);
 
-export default function AuthProvider({children}){
-  const [user,setUser]=useState(null);
-  const signin=async (user)=>{
-    const {login} = apis;
+export default function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const signin = async (user) => {
+    const { login } = apis;
     const data = new URLSearchParams();
     for (const [key, value] of Object.entries(user)) {
       data.append(key, value);
@@ -18,50 +19,63 @@ export default function AuthProvider({children}){
     });
     const loginUser = {
       email: user.email,
-      token: '',
-      status: ''
+      token: "",
+      status: "",
     };
-    if(result?.token){
-      loginUser.status='success';
-      loginUser.token=result.token
+    if (result?.token) {
+      loginUser.status = "success";
+      loginUser.token = result.token;
       setUser(loginUser);
-    }else{
-      loginUser.status=result?.error;
+    } else {
+      loginUser.status = result?.error;
     }
-    return loginUser
-  }
-  const signout=()=>{
+    return loginUser;
+  };
+  const signout = () => {
     setUser(null);
-  }
-  const signup=async (user)=>{
+  };
+  const signup = async (user) => {
     const { register } = apis;
     const data = new URLSearchParams();
     for (const [key, value] of Object.entries(user)) {
       data.append(key, value);
     }
-    const result = await fetchData({ url: register["url"], opts: { ...register["opts"], body: data } });
+    const result = await fetchData({
+      url: register["url"],
+      opts: { ...register["opts"], body: data },
+    });
     const newUser = {
       email: user.email,
       firstname: user.firstname,
       lastname: user.lastname,
-      id: '',
-      token: '',
-      status: ''
+      id: "",
+      token: "",
+      status: "",
     };
-    if(result?.token){
-      newUser.status='success';
-      newUser.id=result.id;
-      newUser.token=result.token;
+    if (result?.token) {
+      newUser.status = "success";
+      newUser.id = result.id;
+      newUser.token = result.token;
       setUser(newUser);
-    }else{
-      newUser.status=result.error;
+    } else {
+      newUser.status = result.error;
     }
-    return newUser
-  }
-  const value={user,signin,signout,signup};
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider> ;
+    return newUser;
+  };
+  const value = { user, signin, signout, signup };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth(){
+function useAuth() {
   return useContext(AuthContext);
 }
+
+const RequireAuth = ({ children }) => {
+  const auth = useContext(AuthContext);
+  const location = useLocation();
+  if (!auth.user) {
+    return <Navigate to="/signin" state={{ from: location }} replace />;
+  }
+  return children;
+};
+export { useAuth, RequireAuth };

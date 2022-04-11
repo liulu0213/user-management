@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import AuthProvider from "./component/authProvider";
+import AuthProvider, { RequireAuth } from "./component/authProvider";
 import Nav from "./component/nav";
 import Footer from "./component/footer";
 import Readme from "./component/readme";
@@ -31,8 +31,22 @@ function App() {
             <Route path="/signin" element={<Signin />} />
             <Route element={<Layout />}>
               <Route path="/" element={<Readme />} />
-              <Route path="/users" element={<UserList users={users} setUser={setUser} />} />
-              <Route path="/users/:id" element={<UserDetail {...user} />} />
+              <Route
+                path="/users"
+                element={
+                  <RequireAuth>
+                    <UserList users={users} setUser={setUser} />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/users/:id"
+                element={
+                  <RequireAuth>
+                    <UserDetail {...user} />
+                  </RequireAuth>
+                }
+              />
             </Route>
           </Routes>
         </main>
